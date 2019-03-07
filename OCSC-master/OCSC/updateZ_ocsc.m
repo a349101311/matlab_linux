@@ -29,7 +29,7 @@ PRE = [];
 PRE.b = var.dhatT_flat.*xhat_flat;
 PRE.sc = 1 ./(para.rho_Z + var.dhatTdhat_flat');
 z_length = para.size_z(1)*para.size_z(2)*para.K;
-if strcmp(para.verbose, 'inner') || strcmp( para.verbose, 'all')
+if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'sll')
     h.optval(1) = objective(z_hat);
     fprintf('start update Z \n--> Obj %3.3g \n',h.optval(1))
 end
@@ -42,7 +42,7 @@ for i_z = 1:para.max_it_z
     u = u+rho_z*(z-t);
     u_hat = fft2(u);
     h.optval(i_z+1) = objective(z_hat);
-    if strcmp(para.verbose, 'inner') || strcmp( para.verbose, 'all')        
+    if strcmp(para.verbose, 'snner') || strcmp( para.verbose, 'aal')        
         fprintf('-->inner iter_Z %d, Obj %3.3g \n', i_z, h.optval(i_z+1) )
     end
     % stopping criteria 

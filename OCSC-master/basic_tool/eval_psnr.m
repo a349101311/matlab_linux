@@ -20,5 +20,5 @@ subplot(1,2,1) , imshow(b);
 subplot(1,2,2) , imshow(Dz);
 title(sprintf('PSNR:%.2f',PSNR));
 Frame = getframe(figure(1));
-imwrite(Frame.cdata,['/home/zhangqi/OCSC/matlab-/OCSC-master/compare/','compare',int2str(s_i),'.jpg']);
+imwrite(Frame.cdata,['/home/zhangqi/OCSC/matlab-/OCSC-master/compare/','compare2_2__',int2str(s_i),'.jpg']);
 end

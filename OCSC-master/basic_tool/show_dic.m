@@ -39,7 +39,6 @@ for j = 1:ceil(size(d,3)/rowN)+1
 end
 
 %figure();
-imshow(new_d);
 %imshow(new_d_disp)
 if save_flag==1
     imwrite(new_d,['/home/zhangqi/OCSC/matlab-/OCSC-master/filter_record/',int2str(s_i),'.jpg']);

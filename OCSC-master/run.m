@@ -6,7 +6,7 @@ addpath('mtimesx');%**
 addpath('3DMatrixMul');
 %% set para
 K = [100];
-psf_s=11;                                                                                                      
+psf_s=11;                                                                                                     
 psf_radius = floor( psf_s/2 );
 precS = 1;
 use_gpu = 0;
@@ -17,8 +17,8 @@ padB = padarray(b, [psf_radius, psf_radius, 0], 0, 'both');
 PARA= auto_para(K,psf_s,b,'no',1e-3,precS,use_gpu);
 %% run
 t1 = tic;
-[ d,d_hat]  = alt_min_online(padB,PARA,[],b); 
-
+[ d,d_hat,psn]  = alt_min_online(padB,PARA,[],b); 
+disp(psn);
 tt = toc(t1);
 %% save
 repo_name = 'result';

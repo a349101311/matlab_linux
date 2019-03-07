@@ -14,18 +14,18 @@ PARA.lambda = [lambda_residual, lambda_l1];
 PARA.max_it = 100;
 PARA.max_it_d = 100;
 PARA.max_it_z = 100;
-PARA.n =1;%£¿Ó¦¸ÃÊÇ»Ò¶ÈÍ¼£¬µ¥Í¨µÀµÄÒâË¼
-PARA.N = size(b,3); %Í¼Æ¬ÊýÁ¿
-PARA.size_x = [size(b,1) + 2*PARA.psf_radius, size(b,2) + 2*PARA.psf_radius,PARA.n]; %110*110*1  Ìî³äºóµÄÍ¼Æ¬µÄ´óÐ¡
+PARA.n =1;%ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ç»Ò¶ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¼
+PARA.N = size(b,3); %Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
+PARA.size_x = [size(b,1) + 2*PARA.psf_radius, size(b,2) + 2*PARA.psf_radius,PARA.n]; %110*110*1  ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ä´ï¿½Ð¡
 PARA.size_z = [PARA.size_x(1), PARA.size_x(2), PARA.K,PARA.n]; %110*110*100*1
-PARA.size_k = [2*PARA.psf_radius + 1, 2*PARA.psf_radius + 1,PARA.K]; %¾í»ýºËµÄ´óÐ¡11*11*100
-PARA.size_k_full = [PARA.size_x(1), PARA.size_x(2), PARA.K]; %Ìî³äºóµÄ¾í»ýºË´óÐ¡110*110*100
+PARA.size_k = [2*PARA.psf_radius + 1, 2*PARA.psf_radius + 1,PARA.K]; %ï¿½ï¿½ï¿½ï¿½ËµÄ´ï¿½Ð¡11*11*100
+PARA.size_k_full = [PARA.size_x(1), PARA.size_x(2), PARA.K]; %ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Ë´ï¿½Ð¡110*110*100
 PARA.kernel_size = [PARA.psf_s, PARA.psf_s,PARA.K];
 %% 
 mul_heur = 50;%%%%%
 gamma_heuristic = mul_heur* 1/max(b(:));
-PARA.rho_D = gamma_heuristic;%ÎªÊ²Ã´ÕâÑù³õÊ¼»¯d¡¢zµÄ¶ÔÅ¼±äÁ¿
-PARA.rho_Z = gamma_heuristic;
+PARA.rho_D = 16.49;%ÎªÊ²Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½dï¿½ï¿½zï¿½Ä¶ï¿½Å¼ï¿½ï¿½ï¿½ï¿½
+PARA.rho_Z = 16.49;
 %%
 PARA.precS = precS;
 PARA.gpu = use_gpu;

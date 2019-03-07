@@ -1,6 +1,6 @@
-function [d_curr, d_hat] = alt_min_online(Mtb,para,init,b)
+function [d_curr, d_hat , psnr] = alt_min_online(Mtb,para,init,b)
 %% Initialize variables
-
+psnr = [10];
 if ~isempty(init)
     if isfield(init, 'd')      
         d_small = init.d;
@@ -57,6 +57,7 @@ for s_i=1:para.N
     if strcmp( para.verbose, 'all')
        if (mod(s_i,scale)==0)
             [ps] = eval_psnr(d_hat, z_hat_si,temp_b,para,s_i); 
+            psnr(s_i) = ps;
             fprintf('Z: no.img: %d, obj: %2.2f, psnr: %2.2f\n', s_i,objZ,ps)
         end 
     end
@@ -85,5 +86,7 @@ for s_i=1:para.N
             show_dic(d_curr,para,1,0,s_i);
         end
     end
+    %para.rho_D = para.rho_D - 0.2;
+    %para.rho_Z = para.rho_Z - 0.4;
 end
 end
