@@ -1,11 +1,11 @@
 function [z,z_hat]=updateZ_ocsc(x_hat,para,d_hat,var)
-%x_hat Í¼Ïñ  para ²ÎÊý d_hatÂË²¨Æ÷£¨È«)£¬Ô¤´¦ÀíµÃµ½µÄ½á¹û
+%x_hat Í¼ï¿½ï¿½  para ï¿½ï¿½ï¿½ï¿½ d_hatï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½È«)ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½Ä½ï¿½ï¿½
 % admm: z, t, u (unscaled)
 objective = @(z_hat) objective_online(z_hat,d_hat, x_hat,para );
 if para.gpu==1
     if (para.precS ==1)
-        z = randn(para.size_z,'single','gpuArray'); %Ö´ÐÐÕâÐÐ
-        t = zeros(para.size_z,'single','gpuArray'); %Ö´ÐÐÕâÐÐ ÕâÊÇ ¸¨Öú±äÁ¿Âð£¿
+        z = randn(para.size_z,'single','gpuArray'); %Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        t = zeros(para.size_z,'single','gpuArray'); %Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     else
         z = randn(para.size_z,'gpuArray');
         t = zeros(para.size_z,'gpuArray'); 

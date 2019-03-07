@@ -1,7 +1,8 @@
 function [d_curr, d_hat] = alt_min_online(Mtb,para,init,b)
 %% Initialize variables
+
 if ~isempty(init)
-    if isfield(init, 'd')     
+    if isfield(init, 'd')      
         d_small = init.d;
         d = dsmall2d(d_small,para);
         d_hat = fft2(d); 
@@ -18,7 +19,7 @@ if ~isempty(init)
     else
         B_h=[];
     end    
-else  %Ö´ÐÐÕâÀï
+else  %Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     A_h = [];
     B_h=[];
     d_small = init_dic(para);
@@ -29,7 +30,7 @@ else  %Ö´ÐÐÕâÀï
     if (para.gpu ==1)
         d_small = gpuArray(d_small);
     end   
-    d = dsmall2d(d_small,para);  %½øÐÐcircshift i.e.½«¾í»ýºËÏÈPostÌî³ä0µ½ºÍÍ¼Æ¬´óÐ¡Ò»ÖÂµÄ³ß´ç£¬²¢½«Ô­ÏÈµÄÔªËØ·Ö²¼ÖÁËÄÖÜ
+    d = dsmall2d(d_small,para);  %ï¿½ï¿½ï¿½ï¿½circshift i.e.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Postï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ð¡Ò»ï¿½ÂµÄ³ß´ç£¬ï¿½ï¿½ï¿½ï¿½Ô­ï¿½Èµï¿½Ôªï¿½Ø·Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     d_hat = fft2(d); 
 end
 if (para.precS ==1)
@@ -49,13 +50,13 @@ for s_i=1:para.N
     %% 1.pre-process Z
     t_Z = tic;%~~~~!!!
     [stat_Z] = precompute_H_hat_Z(d_hat, para);    
-    %% 2.update Z
+    %% 2.update Z`````````````````
     [z_si,z_hat_si] = updateZ_ocsc(temp_b_hat,para,d_hat,stat_Z);
     timeZ = toc(t_Z);
     objZ = objective_online(z_hat_si,d_hat, temp_b_hat,para );
-   if strcmp( para.verbose, 'all')
+    if strcmp( para.verbose, 'all')
        if (mod(s_i,scale)==0)
-            [ps] = eval_psnr(d_hat, z_hat_si,temp_b,para); 
+            [ps] = eval_psnr(d_hat, z_hat_si,temp_b,para,s_i); 
             fprintf('Z: no.img: %d, obj: %2.2f, psnr: %2.2f\n', s_i,objZ,ps)
         end 
     end
@@ -70,18 +71,18 @@ for s_i=1:para.N
     if para.gpu ==1
         [A_h,B_h] = hist_ocsc_gpu(temp_b_hat,z_hat_si, para, A_h,B_h,init_or_not);
     else
-        [A_h,B_h] = hist_ocsc_cpu(temp_b_hat,z_hat_si, para, A_h,B_h,init_or_not);
+        [A_h,B_h] = hist_ocsc_cpu(temp_b_hat,z_hat_si, para, A_h,B_h,1);
     end
     %% 2.update D
     [d,d_hat,s,y] = updateD_ocsc(para,A_h,B_h,s,y,d_hat);    
     timeD =toc(t_D);
     d_curr = d2dsmall(d,para);
-    if strcmp( para.verbose, 'all')
-        if para.gpu==1
+    if strcmp(para.verbose,'all')
+        if para.gpu == 1
             d_show = gather(d_curr);
-            show_dic(d_show,para,0,0);
+            show_dic(d_show,para,1,0,s_i);
         else
-            show_dic(d_curr,para,0,0); 
+            show_dic(d_curr,para,1,0,s_i);
         end
     end
 end

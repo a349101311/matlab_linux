@@ -55,7 +55,7 @@ function dd_hat = solve_conv_term_D(ss_hat, yy_hat, Ahi,Bhi, par,rho_D)
 %         for i = 1:size(Ahi,3)
 %             x2(:,:,i) = Ahi(:,:,i)*left(:,:,i);
 %         end
-        x2 = mtimesx(Ahi,left);
+        x2 = MultiplyOfMatrix(Ahi,left);
     end
     clear Ahi
     dd_hat = reshape(permute(x2,[3,1,2]),sy,sx,[]);

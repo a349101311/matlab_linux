@@ -1,4 +1,4 @@
-function [] = show_dic(d,PARA,save_flag,sort_flag)
+function [] = show_dic(d,PARA,save_flag,sort_flag,s_i)
 s1 = size(d,1);
 if (isempty(who('sort_flag')))
     sort_flag = 1;
@@ -39,11 +39,10 @@ for j = 1:ceil(size(d,3)/rowN)+1
 end
 
 %figure();
-imshow(new_d)
+imshow(new_d);
 %imshow(new_d_disp)
 if save_flag==1
-        imwrite(new_d , sprintf('%s/filter_%s.png',PARA.path,PARA.save_name),'bitdepth', 16);%%
-end
+    imwrite(new_d,['/home/zhangqi/OCSC/matlab-/OCSC-master/filter_record/',int2str(s_i),'.jpg']);
 end
 
 

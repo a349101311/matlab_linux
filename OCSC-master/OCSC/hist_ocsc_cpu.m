@@ -19,7 +19,7 @@ if (b_no==1)
 %         z_inv_sm = eye(par.K)/par.rho_D-z_inv_sm;
 %         hisA_mat(:,:,i)=z_inv_sm;
 %     end
-    z_inv = mtimesx(z_inv1,zhatT_f);    
+    z_inv = MultiplyOfMatrix(z_inv1,zhatT_f);    
     hisA_mat =eye(par.K)/par.rho_D-z_inv;
 else
 hisB_mat=hisB_mat+ new_zb;
