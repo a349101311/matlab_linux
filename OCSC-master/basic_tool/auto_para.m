@@ -24,17 +24,17 @@ PARA.kernel_size = [PARA.psf_s, PARA.psf_s,PARA.K];
 %% 
 mul_heur = 50;%%%%%
 gamma_heuristic = mul_heur* 1/max(b(:));
-PARA.rho_D = 100;%Ϊʲô������ʼ��d��z�Ķ�ż����
-PARA.rho_Z = 10;
+PARA.rho_D = 10;%Ϊʲô������ʼ��d��z�Ķ�ż����
+PARA.rho_Z = 0.01;
 %%
 PARA.precS = precS;
 PARA.gpu = use_gpu;
-PARA.AutoRho = 1;
+PARA.AutoRho = 0;
 PARA.RhoRsdlRatio = 4;
 PARA.RhoScaling = 2;
 PARA.AutoRhoPeriod = 10;
 
-PARA.AutoRhod = 1;
+PARA.AutoRhod = 0;
 PARA.RhodRsdlRatio = 10;
 PARA.RhodScaling = 2;
 PARA.AutoRhodPeriod = 10;
