@@ -51,7 +51,7 @@ for s_i=1:para.N
     t_Z = tic;%~~~~!!!
     [stat_Z] = precompute_H_hat_Z(d_hat, para);    
     %% 2.update Z`````````````````
-    [z_si,z_hat_si] = updateZ_ocsc(temp_b_hat,para,d_hat,stat_Z);
+    [z_si,z_hat_si,para] = updateZ_ocsc(temp_b_hat,para,d_hat,stat_Z);
     timeZ = toc(t_Z);
     objZ = objective_online(z_hat_si,d_hat, temp_b_hat,para );
     if strcmp( para.verbose, 'all')
@@ -75,7 +75,7 @@ for s_i=1:para.N
         [A_h,B_h] = hist_ocsc_cpu(temp_b_hat,z_hat_si, para, A_h,B_h,1);
     end
     %% 2.update D
-    [d,d_hat,s,y] = updateD_ocsc(para,A_h,B_h,s,y,d_hat);    
+    [d,d_hat,s,y,para] = updateD_ocsc(para,A_h,B_h,s,y,d_hat);    
     timeD =toc(t_D);
     d_curr = d2dsmall(d,para);
     if strcmp(para.verbose,'all')
@@ -86,7 +86,5 @@ for s_i=1:para.N
             show_dic(d_curr,para,1,0,s_i);
         end
     end
-    %para.rho_D = para.rho_D - 0.2;
-    %para.rho_Z = para.rho_Z - 0.4;
 end
 end
