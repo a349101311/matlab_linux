@@ -8,11 +8,11 @@ if para.gpu==1
         t = zeros(para.size_z,'single','gpuArray'); %ִ������ ���� ����������
     else
         z = randn(para.size_z,'gpuArray');
-        t = randn(para.size_z,'gpuArray'); 
+        t = zeros(para.size_z,'gpuArray'); 
     end
 else
-    z = randn(para.size_z);
-    t = randn(para.size_z);
+    z = randn(para.size_z) * 10;
+    t = zeros(para.size_z);
     if (para.precS ==1)
        t=single(t);
        z = single(z);
@@ -32,7 +32,7 @@ if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'sll')
     fprintf('start update Z \n--> Obj %3.3g \n',h.optval(1))
 end
 for i_z = 1:para.max_it_z
-    PRE.sc = 1./(para.rho_Z + var.dhatTdhat_flat');
+    PRE.sc = 1./(para.rho_Z + var.dhatTdhat_flat'); %shejidao rho 
     z_hat = solve_conv_term_Z(var.dhatT_flat,t_hat, u_hat, para,para.rho_Z,PRE);%%%%%
     z = real(ifft2( z_hat));
     told = t;
@@ -42,8 +42,8 @@ for i_z = 1:para.max_it_z
     u_hat = fft2(u);
     h.optval(i_z+1) = objective(z_hat);
     % stopping criteria 
-    ABSTOL = 1e-3;
-    RELTOL = 1e-3;
+    ABSTOL = 1e-4;
+    RELTOL = 1e-4;
     h.r_norm(i_z) = norm(z(:)-t(:));
     h.s_norm(i_z) = norm(-para.rho_Z*(t(:)-told(:))); 
     h.eps_pri(i_z)=sqrt(z_length)*ABSTOL+RELTOL*max(norm(z(:)),norm(t(:)));

@@ -1,4 +1,4 @@
-function [d_curr, d_hat , psnr] = alt_min_online(Mtb,para,init,b)
+function [d_curr, d_hat , psnr,para] = alt_min_online(Mtb,para,init,b)
 %% Initialize variables
 psnr = [10];
 if ~isempty(init)
