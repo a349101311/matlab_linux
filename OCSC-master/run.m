@@ -26,5 +26,7 @@ repo_path = sprintf('%s/%s',repo_name,data);
 save_name = sprintf('K%d_psf%d',K,psf_s);
 save_me = sprintf('%s/record_%s.mat',repo_path,save_name);
 save(save_me,'d_hat','d','tt','PARA');
+
 fprintf('Done sparse coding learning! --> Time %2.2f sec.\n\n', tt)
+
 

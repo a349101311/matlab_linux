@@ -42,7 +42,7 @@ end
 %imshow(new_d_disp)
 if save_flag==1
     disp('**********************************');
-    imwrite(new_d,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/filter_record/',int2str(s_i),'.jpg']);
+    imwrite(new_d,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/filter_record/','7/',int2str(s_i),'.jpg']);
 end
 
 

@@ -21,7 +21,7 @@ for s_i = 1 : 4
     stat_Z.dhatTdhat_flat = sum(conj(dhat_flat).*dhat_flat,2);
     stat_Z.dhatT_flat = conj(dhat_flat.');
    %update_Z_OCSC
-    [z_si,z_hat_si,PARA] = updateZ_ocsc(tmp_b_hat,PARA,d_hat,stat_Z);
+    [z_si,z_hat_si] = updateZ_ocsc1(tmp_b_hat,PARA,d_hat,stat_Z);
     objZ = objective_online(z_hat_si,d_hat, tmp_b_hat,PARA);
     if strcmp( PARA.verbose, 'all')
        if (mod(s_i,1)==0)
