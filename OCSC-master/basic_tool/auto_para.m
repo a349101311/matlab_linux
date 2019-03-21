@@ -8,7 +8,7 @@ PARA.psf_s = psf_s; %11
 PARA.psf_radius = floor( PARA.psf_s/2 );
 PARA.tol = tol;
 lambda_residual = 1.0; % fixed
-lambda_l1 = 1;
+lambda_l1 = 0.5;
 %%
 PARA.lambda = [lambda_residual, lambda_l1];
 PARA.max_it = 100;
@@ -24,8 +24,8 @@ PARA.kernel_size = [PARA.psf_s, PARA.psf_s,PARA.K];
 %% 
 mul_heur = 50;%%%%%
 gamma_heuristic = mul_heur* 1/max(b(:));
-PARA.rho_D = 100;%Ϊʲô������ʼ��d��z�Ķ�ż����
-PARA.rho_Z = 50;
+PARA.rho_D = 5;%Ϊʲô������ʼ��d��z�Ķ�ż����
+PARA.rho_Z = 5;
 %%
 PARA.precS = precS;
 PARA.gpu = use_gpu;

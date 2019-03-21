@@ -73,7 +73,7 @@ title('rho_D')
 xlabel('iterations')
 ylabel('rho_D')
 Frame = getframe(figure(1));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','7/','graph_D',int2str(s_i),'.jpg']);
+imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','5/','graph_D',int2str(s_i),'.jpg']);
 end
 %%
 function dd_hat = solve_conv_term_D(ss_hat, yy_hat, Ahi,Bhi, par,rho_D)
