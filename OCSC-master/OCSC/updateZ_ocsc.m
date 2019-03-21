@@ -102,7 +102,7 @@ title('rho_Z')
 xlabel('iterations')
 ylabel('rho_Z')
 Frame = getframe(figure(1));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','5/','graph_Z',int2str(s_i),'.jpg']);
+imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','6/','graph_Z',int2str(s_i),'.jpg']);
 end
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function zz_hat = solve_conv_term_Z( dhatT, tt_hat, uu_hat, par,rho_Z,pre)

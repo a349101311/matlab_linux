@@ -95,6 +95,6 @@ title('psnr')
 xlabel('picture number')
 ylabel('psnr value')
 Frame = getframe(figure(3));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/','graph/','5/','psnr.jpg']);
+imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/','graph/','6/','psnr.jpg']);
 
 end
