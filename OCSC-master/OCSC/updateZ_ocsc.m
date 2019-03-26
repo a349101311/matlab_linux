@@ -48,8 +48,8 @@ for i_z = 1:para.max_it_z
     u_hat = fft2(u);
     h.optval(i_z+1) = objective(z_hat);
     % stopping criteria 
-    ABSTOL = 1e-4;
-    RELTOL = 1e-4;
+    ABSTOL = 1e-3;
+    RELTOL = 1e-3;
     h.r_norm(i_z) = norm(z(:)-t(:));
     %normz = norm(z(:));
     h.s_norm(i_z) = norm(-para.rho_Z*(t(:)-told(:))); 
@@ -64,7 +64,7 @@ for i_z = 1:para.max_it_z
         end
     end
     if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'all')        
-        %fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),para.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
+        fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),para.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
     end
     
     r1 = h.r_norm(i_z) < h.eps_pri(i_z);
@@ -75,6 +75,7 @@ for i_z = 1:para.max_it_z
     end  
 end  
 clf
+figure(1)
 x = 1 : (i_z + 1); 
 y = h.optval;
 subplot(4,1,1) 
@@ -102,7 +103,7 @@ title('rho_Z')
 xlabel('iterations')
 ylabel('rho_Z')
 Frame = getframe(figure(1));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','6/','graph_Z',int2str(s_i),'.jpg']);
+imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','/fruit/','8/','graph_Z',int2str(s_i),'.jpg']);
 end
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function zz_hat = solve_conv_term_Z( dhatT, tt_hat, uu_hat, par,rho_Z,pre)

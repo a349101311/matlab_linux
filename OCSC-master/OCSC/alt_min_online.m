@@ -88,13 +88,13 @@ for s_i=1:para.N
     end
 end
 clf
-figure(3)
+figure(4)
 x = 1 : 10;
 plot(x,psnr);
 title('psnr')
 xlabel('picture number')
 ylabel('psnr value')
-Frame = getframe(figure(3));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/','graph/','6/','psnr.jpg']);
+Frame = getframe(figure(4));
+imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/','graph/','/fruit/','8/','psnr.jpg']);
 
 end

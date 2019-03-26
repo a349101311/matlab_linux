@@ -1,0 +1,6 @@
+rhoD gamma rhoZ gamma
+ABS 1e-4
+RES 1e-4
+auto_rho = 1
+scaling 10
+t 2
