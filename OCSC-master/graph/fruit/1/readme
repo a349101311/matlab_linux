@@ -1,8 +1,0 @@
-L1 = 1
-max_iterationd & z = 200
-rho_D = 50
-rho_Z = 50
-d:ABSTOL= 1e-3
-d:RESTOL= 1e-3
-rho_Z :RhoRsdlRatio = 5 RhoScaling = 1.5 AutoRhoPeriod = 10
-rho_D :RhoRsdlRatio = 5 RhoScaling = 1.5 AutoRhoPeriod = 10

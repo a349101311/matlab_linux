@@ -1,4 +1,4 @@
-function [d_curr, d_hat , psnr,para] = alt_min_online(Mtb,para,init,b)
+function [d_curr, d_hat , psnr,para] = alt_min_online(Mtb,para,init,b,train_number,data)
 %% Initialize variables
 psnr = [10];
 if ~isempty(init)
@@ -51,12 +51,12 @@ for s_i=1:para.N
     t_Z = tic;%~~~~!!!
     [stat_Z] = precompute_H_hat_Z(d_hat, para);    
     %% 2.update Z`````````````````
-    [z_si,z_hat_si,para] = updateZ_ocsc(temp_b_hat,para,d_hat,stat_Z,s_i);
+    [z_si,z_hat_si,para] = updateZ_ocsc(temp_b_hat,para,d_hat,stat_Z,s_i,data,train_number);
     timeZ = toc(t_Z);
     objZ = objective_online(z_hat_si,d_hat, temp_b_hat,para );
     if strcmp( para.verbose, 'all')
        if (mod(s_i,scale)==0)
-            [ps] = eval_psnr(d_hat, z_hat_si,temp_b,para,s_i); 
+            [ps] = eval_psnr(d_hat, z_hat_si,temp_b,para,s_i,data,train_number); 
             psnr(s_i) = ps;
             fprintf('Z: no.img: %d, obj: %2.2f, psnr: %2.2f\n', s_i,objZ,ps)
         end 
@@ -75,7 +75,7 @@ for s_i=1:para.N
         [A_h,B_h] = hist_ocsc_cpu(temp_b_hat,z_hat_si, para, A_h,B_h,1);
     end
     %% 2.update D
-    [d,d_hat,s,y,para] = updateD_ocsc(para,A_h,B_h,s,y,d_hat,s_i);    
+    [d,d_hat,s,y,para] = updateD_ocsc(para,A_h,B_h,s,y,d_hat,s_i,data,train_number);    
     timeD =toc(t_D);
     d_curr = d2dsmall(d,para);
     if strcmp(para.verbose,'all')
@@ -83,7 +83,7 @@ for s_i=1:para.N
             d_show = gather(d_curr);
             show_dic(d_show,para,1,0,s_i);
         else
-            show_dic(d_curr,para,1,0,s_i);
+            show_dic(d_curr,para,1,0,s_i,data,train_number);
         end
     end
 end
@@ -95,6 +95,10 @@ title('psnr')
 xlabel('picture number')
 ylabel('psnr value')
 Frame = getframe(figure(4));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/','graph/','/fruit/','8/','psnr.jpg']);
+path = sprintf('/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/%s/%d/',data,train_number);
+if exist(path,'dir')==0
+    mkdir(path);
+end
+imwrite(Frame.cdata,[path,'psnr.jpg']);
 
 end

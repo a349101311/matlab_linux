@@ -1,4 +1,4 @@
-function [] = show_dic(d,PARA,save_flag,sort_flag,s_i)
+function [] = show_dic(d,PARA,save_flag,sort_flag,s_i,data,train_number)
 s1 = size(d,1);
 if (isempty(who('sort_flag')))
     sort_flag = 1;
@@ -41,8 +41,11 @@ end
 %figure();
 %imshow(new_d_disp)
 if save_flag==1
-    disp('**********************************');
-    imwrite(new_d,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/filter_record/','/fruit/','8/',int2str(s_i),'.jpg']);
+    path = sprintf('/home/zhangqi/newOCSC/matlab_linux/OCSC-master/filter/%s/%d/',data,train_number);
+    if exist(path,'dir')==0
+        mkdir(path);
+    end
+    imwrite(new_d,[path,int2str(s_i),'.jpg']);
 end
 
 

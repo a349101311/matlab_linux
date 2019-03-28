@@ -1,4 +1,4 @@
-function [PSNR] = eval_psnr(dd_hat,zz_hat, b, par,s_i)
+function [PSNR] = eval_psnr(dd_hat,zz_hat, b, par,s_i,data,train_number)
 %Dz = real(ifft2( reshape(sum(dd_hat.* zz_hat, 3), [par.size_x(1),par.size_x(2),size(b,3)]) ));
 Dz = real(ifft2(sum(dd_hat.* zz_hat, 3)));
 if size(par.psf_s,2) == 2   
@@ -21,5 +21,9 @@ subplot(1,2,1) , imshow(b);
 subplot(1,2,2) , imshow(Dz);
 title(sprintf('PSNR:%.2f',PSNR));
 Frame = getframe(figure(3));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/compare/','/fruit/','/8/',int2str(s_i),'.jpg']);
+path = sprintf('/home/zhangqi/newOCSC/matlab_linux/OCSC-master/compare/%s/%d/',data,train_number);
+if exist(path,'dir')==0
+    mkdir(path);
+end
+imwrite(Frame.cdata,[path,'compare',int2str(s_i),'.jpg']);,
 end

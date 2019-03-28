@@ -1,4 +1,0 @@
-fixed rho
-L1 = 1
-ABSTOL = 1e-3
-RESTOL = 1e-3

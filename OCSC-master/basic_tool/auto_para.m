@@ -8,7 +8,7 @@ PARA.psf_s = psf_s; %11
 PARA.psf_radius = floor( PARA.psf_s/2 );
 PARA.tol = tol;
 lambda_residual = 1.0; % fixed
-lambda_l1 = 1;
+lambda_l1 = 0.1;
 %%
 PARA.lambda = [lambda_residual, lambda_l1];
 PARA.max_it = 100;

@@ -1,4 +1,4 @@
-function [z,z_hat,para]=updateZ_ocsc(x_hat,para,d_hat,var,s_i)
+function [z,z_hat,para]=updateZ_ocsc(x_hat,para,d_hat,var,s_i,data,train_number)
 %x_hat ͼ��  para ���� d_hat�˲�����ȫ)��Ԥ����õ��Ľ��
 % admm: z, t, u (unscaled)
 obj=[];
@@ -31,7 +31,7 @@ xhat_flat = reshape(x_hat,1,[]);
 PRE = [];
 PRE.b = var.dhatT_flat.*xhat_flat;
 z_length = para.size_z(1)*para.size_z(2)*para.K;
-if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'sll')
+if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'all')
     h.optval(1) = objective(z_hat);
     fprintf('start update Z \n--> Obj %3.3g \n',h.optval(1))
 end
@@ -40,7 +40,6 @@ for i_z = 1:para.max_it_z
     PRE.sc = 1./(para.rho_Z + var.dhatTdhat_flat'); %shejidao rho 
     z_hat = solve_conv_term_Z(var.dhatT_flat,t_hat, u_hat, para,para.rho_Z,PRE);%%%%%
     z = real(ifft2( z_hat));
-    xxx = norm(z(:));
     told = t;
     t = prox_l1( z+u/para.rho_Z, para.lambda(2) / para.rho_Z );
     t_hat = fft2(t);
@@ -48,8 +47,8 @@ for i_z = 1:para.max_it_z
     u_hat = fft2(u);
     h.optval(i_z+1) = objective(z_hat);
     % stopping criteria 
-    ABSTOL = 1e-3;
-    RELTOL = 1e-3;
+    ABSTOL = 1e-4;
+    RELTOL = 1e-4;
     h.r_norm(i_z) = norm(z(:)-t(:));
     %normz = norm(z(:));
     h.s_norm(i_z) = norm(-para.rho_Z*(t(:)-told(:))); 
@@ -64,13 +63,13 @@ for i_z = 1:para.max_it_z
         end
     end
     if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'all')        
-        fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),para.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
+        %fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),para.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
     end
     
     r1 = h.r_norm(i_z) < h.eps_pri(i_z);
     s1 = h.s_norm(i_z) < h.eps_dual(i_z);
     Rho_Z(i_z) = para.rho_Z;
-    if r1 && s1
+    if (r1 && s1)
         break;
     end  
 end  
@@ -103,7 +102,11 @@ title('rho_Z')
 xlabel('iterations')
 ylabel('rho_Z')
 Frame = getframe(figure(1));
-imwrite(Frame.cdata,['/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/','/fruit/','8/','graph_Z',int2str(s_i),'.jpg']);
+path = sprintf('/home/zhangqi/newOCSC/matlab_linux/OCSC-master/graph/%s/%d/',data,train_number);
+if exist(path,'dir')==0
+    mkdir(path);
+end
+imwrite(Frame.cdata,[path,'graphZ',int2str(s_i),'.jpg']);
 end
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function zz_hat = solve_conv_term_Z( dhatT, tt_hat, uu_hat, par,rho_Z,pre)
