@@ -47,8 +47,8 @@ for i_z = 1:para.max_it_z
     u_hat = fft2(u);
     h.optval(i_z+1) = objective(z_hat);
     % stopping criteria 
-    ABSTOL = 1e-3;
-    RELTOL = 1e-3;
+    ABSTOL = 1e-4;
+    RELTOL = 1e-4;
     h.r_norm(i_z) = norm(z(:)-t(:));
     %normz = norm(z(:));
     h.s_norm(i_z) = norm(-para.rho_Z*(t(:)-told(:))); 

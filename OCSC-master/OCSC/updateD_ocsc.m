@@ -30,8 +30,8 @@ for i_d = 1:para.max_it_d
     y = y + para.rho_D* (d - s);
     y_hat = fft2(y);
     % stopping criteria
-    ABSTOL = 1e-3;
-    RELTOL = 1e-3; 
+    ABSTOL = 1e-4;
+    RELTOL = 1e-4; 
     h.r_norm(i_d) = norm(d(:)-s(:));
     h.s_norm(i_d) = norm(-para.rho_D*(s(:)-sold(:)));      
     h.eps_pri(i_d)=sqrt(d_length)*ABSTOL+RELTOL*max(norm(d(:)),norm(s(:)));

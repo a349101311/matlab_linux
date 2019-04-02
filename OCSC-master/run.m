@@ -14,10 +14,12 @@ data = 'city_10';
 %train_number = 1; % origin  noautorho all 1e-3
 %train_number = 2; % Autorho all 1e-3 
 %train_number = 3; %Autorho all 1e-3 L1 = 0.5
-train_number = 4; %Autorho all 1e-3 L1 = 0.1 
+%train_number = 4; %Autorho all 1e-3 L1 = 0.1 
 %train_number = 5; %bigger rho init L1 = 1
 %train_number = 6; %Autorho rhoz = 2 rhod = 10 le-4 L1 = 1
 %train_number = 7; %Autorho rho = gamma L1 = 0.1 1e-4
+%train_number = 11; %origin no AutoRho all 1e-4
+train_number = 12; % AutoRho all 1e-4
 %% load datadata,train_number
 load (sprintf('datasets/%s/train/train_lcne.mat',data)) %%% 
 padB = padarray(b, [psf_radius, psf_radius, 0], 0, 'both');
