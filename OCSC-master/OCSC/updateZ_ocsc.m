@@ -36,24 +36,34 @@ if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'all')
     fprintf('start update Z \n--> Obj %3.3g \n',h.optval(1))
 end
 i = 0;
+
 for i_z = 1:para.max_it_z
-    PRE.sc = 1./(para.rho_Z + var.dhatTdhat_flat'); %shejidao rho 
+    PRE.sc = 1./(para.rho_Z + var.dhatTdhat_flat'); %methoned rho 
     z_hat = solve_conv_term_Z(var.dhatT_flat,t_hat, u_hat, para,para.rho_Z,PRE);%%%%%
     z = real(ifft2( z_hat));
     told = t;
-    t = prox_l1( z+u/para.rho_Z, para.lambda(2) / para.rho_Z );
+    t = prox_l1( z+u/para.rho_Z, para.lambda(2) / para.rho_Z);
+    % modify SUREShrink
+    %[t,para] = prox_l1_SUREShrink(z + u / para.rho_Z,para);
     t_hat = fft2(t);
     u = u+para.rho_Z*(z-t);
     u_hat = fft2(u);
     h.optval(i_z+1) = objective(z_hat);
     % stopping criteria 
-    ABSTOL = 1e-4;
-    RELTOL = 1e-4;
-    h.r_norm(i_z) = norm(z(:)-t(:));
-    %normz = norm(z(:));
-    h.s_norm(i_z) = norm(-para.rho_Z*(t(:)-told(:))); 
-    h.eps_pri(i_z)=sqrt(z_length)*ABSTOL+RELTOL*max(norm(z(:)),norm(t(:)));
-    h.eps_dual(i_z)=sqrt(z_length)*ABSTOL+RELTOL*norm(u(:)); 
+    ABSTOL = 1e-3;
+    RELTOL = 1e-3;
+    %REL
+%      h.r_norm(i_z) = norm(z(:)-t(:)) / max(norm(z(:)),norm(t(:)));
+%      h.s_norm(i_z) = norm((t(:)-told(:))) / norm(u(:)); 
+%      h.eps_pri(i_z)=sqrt(z_length) * ABSTOL / max(norm(z(:)),norm(t(:))) + RELTOL;
+%      h.eps_dual(i_z)=sqrt(z_length) * ABSTOL / (para.rho_Z * norm(u(:))) + RELTOL;
+    
+
+    %ABS
+     h.r_norm(i_z) = norm(z(:) - t(:));
+     h.s_norm(i_z) = norm(-para.rho_Z * (t(:) - told(:)));
+     h.eps_pri(i_z) = sqrt(z_length) * ABSTOL + RELTOL * max(norm(z(:)) , norm(t(:)));
+     h.eps_dual(i_z) = sqrt(z_length) * ABSTOL + RELTOL * norm(u(:));
     if para.AutoRho,
         if i_z ~= 1 && mod(i_z,para.AutoRhoPeriod) == 0,
             rsf = 1;
@@ -63,7 +73,7 @@ for i_z = 1:para.max_it_z
         end
     end
     if strcmp(para.verbose, 'anner') || strcmp( para.verbose, 'all')        
-        %fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),para.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
+        %fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g beta %3.3g\n', i_z, h.optval(i_z+1),para.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z) , para.lambda(2))
     end
     
     r1 = h.r_norm(i_z) < h.eps_pri(i_z);

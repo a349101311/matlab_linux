@@ -19,24 +19,25 @@ if (b_no==1)
 %         z_inv_sm = eye(par.K)/par.rho_D-z_inv_sm;
 %         hisA_mat(:,:,i)=z_inv_sm;
 %     end
+    
     z_inv = MultiplyOfMatrix(z_inv1,zhatT_f);    
     hisA_mat =eye(par.K)/par.rho_D-z_inv;
-else
-hisB_mat=hisB_mat+ new_zb;
-clear zhat zhat_flat
-down = mtimesx(zhatT_f,hisA_mat);
-down = mtimesx(down,zhat_f);
-down = down+1;
-up1 = mtimesx(hisA_mat,zhat_f);
-up2 = mtimesx(zhatT_f,hisA_mat);
-clear zhatT_flat zhatT_f zhat_f 
-updown  = up2./ down;
-clear up2 down
-hisA_mat= hisA_mat-mtimesx(up1, updown);% can change into for to save mem
-%%**** to save mem
-% for i = 1:size(up1,3)
-%     temp_sm = up1(:,:,i)*updown(:,:,i);
-%     hisA_mat(:,:,i)=hisA_mat(:,:,i)-temp_sm;
-% end
+else 
+    hisB_mat=hisB_mat+ new_zb;
+    clear zhat zhat_flat
+    down = mtimesx(zhatT_f,hisA_mat);
+    down = mtimesx(down,zhat_f);
+    down = down+1;
+    up1 = mtimesx(hisA_mat,zhat_f);
+    up2 = mtimesx(zhatT_f,hisA_mat);
+    clear zhatT_flat zhatT_f zhat_f
+    updown  = up2./ down;
+    clear up2 down
+    hisA_mat= hisA_mat-mtimesx(up1, updown);% can change into for to save mem
+    %%**** to save mem
+    % for i = 1:size(up1,3)
+    %     temp_sm = up1(:,:,i)*updown(:,:,i);
+    %     hisA_mat(:,:,i)=hisA_mat(:,:,i)-temp_sm;
+    % end
 end
 end

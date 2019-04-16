@@ -8,12 +8,12 @@ PARA.psf_s = psf_s; %11
 PARA.psf_radius = floor( PARA.psf_s/2 );
 PARA.tol = tol;
 lambda_residual = 1.0; % fixed
-lambda_l1 = 1;
+lambda_l1 = 0.5;
 %%
 PARA.lambda = [lambda_residual, lambda_l1];
 PARA.max_it = 100;
-PARA.max_it_d = 100;
-PARA.max_it_z = 100;
+PARA.max_it_d = 150;
+PARA.max_it_z = 150;
 PARA.n =1;%��Ӧ���ǻҶ�ͼ����ͨ������˼
 PARA.N = size(b,3); %ͼƬ����
 PARA.size_x = [size(b,1) + 2*PARA.psf_radius, size(b,2) + 2*PARA.psf_radius,PARA.n]; %110*110*1  �����ͼƬ�Ĵ�С
@@ -29,12 +29,12 @@ PARA.rho_Z = gamma_heuristic;
 %%
 PARA.precS = precS;
 PARA.gpu = use_gpu;
-PARA.AutoRho = 1;
+PARA.AutoRho = 0;
 PARA.RhoRsdlRatio = 10;
 PARA.RhoScaling = 2;
 PARA.AutoRhoPeriod = 10;
 
-PARA.AutoRhod = 1;
+PARA.AutoRhod = 0;
 PARA.RhodRsdlRatio = 10;
 PARA.RhodScaling = 2;
 PARA.AutoRhodPeriod = 10;

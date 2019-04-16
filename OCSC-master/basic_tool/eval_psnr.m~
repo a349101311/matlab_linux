@@ -1,0 +1,65 @@
+function [PSNR] = eval_psnr(dd_hat,zz_hat, b, par,s_i,data,train_number)
+%Dz = real(ifft2( reshape(sum(dd_hat.* zz_hat, 3), [par.size_x(1),par.size_x(2),size(b,3)]) ));
+Dz = real(ifft2(sum(dd_hat.* zz_hat, 3)));
+if size(par.psf_s,2) == 2   
+    Dz = Dz(1 + par.psf_radius(1):size(Dz,1) - par.psf_radius(1),1 + par.psf_radius(2):size(Dz,2) - par.psf_radius(2),:); %% yf: correspond to circshift
+else
+    Dz = Dz(1 + par.psf_radius:end - par.psf_radius,1 + par.psf_radius:end - par.psf_radius,:); %% yf: correspond to circshift
+end
+% if par.gpu == 1
+%     Dz = gather(Dz);
+% end
+% if par.precS == 1
+%     Dz = double(Dz);
+%     b = double(b);
+% end
+%PSNR0 = psnr(b, Dz); %%
+
+% %mean b
+ %meanb = sum(b(:)) / size(b(:),1);
+% 
+% %mean Dz
+ %meanDz = sum(Dz(:)) / size(Dz(:),1);
+% 
+% fprintf('meanb %2.6f meanDz %2.6f\n',meanb,meanDz)
+Dz = Dz .* 2;
+x = 1 : 100;
+figure(3333)
+subplot(4,2,1)
+plot(x,Dz(:,1));
+subplot(4,2,2);
+plot(x,b(:,1));
+
+subplot(4,2,3)
+plot(x,Dz(:,2));
+subplot(4,2,4);
+plot(x,b(:,2));
+
+subplot(4,2,5)
+plot(x,Dz(:,3));
+subplot(4,2,6);
+plot(x,b(:,3));
+
+subplot(4,2,7)
+plot(x,Dz(:,4));
+subplot(4,2,8);
+plot(x,b(:,4));
+
+figure(3)
+%Dz = Dz + (meanb - meanDz);Dz = Dz .* 2.5;
+
+% meanDz = sum(Dz(:)) / size(Dz(:),1);
+% fprintf('meanb %2.6f meanDz %2.6f\n',meanb,meanDz)
+Dz = Dz .* 2;atial domai3
+[PSNR,RMSE] = my_psnr(b,Dz);
+subplot(1,2,1) , imshow(b);
+
+subplot(1,2,2) , imshow(Dz);
+title(sprintf('PSNR:%.2f',PSNR));
+Frame = getframe(figure(3));
+path = sprintf('/home/zhangqi/newOCSC/matlab_linux/OCSC-master/compare/%s/%d/',data,train_number);
+if exist(path,'dir')==0
+    mkdir(path);
+end
+imwrite(Frame.cdata,[path,'compare',int2str(s_i),'.jpg']);,
+end

@@ -9,5 +9,6 @@ f_z = par.lambda(1) * 1/2 /(par.size_z(1)*par.size_z(2))* norm(Dz_hat(:) - x_hat
 % f_z2 = par.lambda(1) * 1/2 * norm( reshape( Dz - x, [], 1) , 2 )^2;
 
 g_z = par.lambda(2) * sum( abs( z(:) ), 1 );
+%g_z = 1 * sum( abs( z(:) ), 1 );
 f_val = f_z + g_z;
 end

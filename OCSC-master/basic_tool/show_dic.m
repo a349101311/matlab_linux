@@ -38,14 +38,13 @@ for j = 1:ceil(size(d,3)/rowN)+1
     new_d((s1+pd)*(j-1)+pd,:) = 1;
 end
 
-%figure();
-%imshow(new_d_disp)
 if save_flag==1
     path = sprintf('/home/zhangqi/newOCSC/matlab_linux/OCSC-master/filter/%s/%d/',data,train_number);
     if exist(path,'dir')==0
         mkdir(path);
     end
     imwrite(new_d,[path,int2str(s_i),'.jpg']);
+    
 end
 
 

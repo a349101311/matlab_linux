@@ -1,5 +1,7 @@
-load(sprintf('datasets/%s/test/test_lcne.mat',data))
-load(sprintf('result/%s/%d/record_K100_psf11.mat',data,train_number))
+data = 'city_10';
+load(sprintf('datasets/%s/train/train_lcne.mat',data))
+train_number = 1;
+load(sprintf('result/%s/%d/record_K100_psf11.mat','city_10',train_number))
 addpath('basic_tool'); 
 addpath('OCSC');
 addpath('3DMatrixMul');
@@ -9,11 +11,10 @@ psf_radius = floor( psf_s/2 );
 precS = 1;
 use_gpu = 0;
 padB = padarray(b, [psf_radius, psf_radius, 0], 0, 'both');
-psnr = [4];
-
+psnr = [10];
 %%alt_min_online
 b_hat = fft2(padB);
-for s_i = 1 : 4
+for s_i = 1 : size(b,3)
     temp_b = b(:,:,s_i);
     temp_b_hat = b_hat(:,:,s_i);
     %pre_process Z
@@ -40,19 +41,20 @@ for s_i = 1 : 4
         z = real(ifft2( z_hat));
         
         told = t;
-        t = prox_l1(z+u/PARA.rho_Z,PARA.lambda(2)/PARA.rho_Z);
+        t = prox_l1( z+u/PARA.rho_Z, PARA.lambda(2) / PARA.rho_Z);
+        %[t,PARA] = prox_l1_SUREShrink(z + u / PARA.rho_Z,PARA);
         t_hat = fft2(t);
         u = u + PARA.rho_Z*(z-t);
         u_hat = fft2(u);
         h.optval(i_z + 1) = objective(z_hat);
         %stop criteria
-        ABSTOL = 1e-3;
-        RELTOL = 1e-3;
+        ABSTOL = 1e-4;
+        RELTOL = 1e-4;
         h.r_norm(i_z) = norm(z(:)-t(:));
         h.s_norm(i_z) = norm(-PARA.rho_Z*(t(:)-told(:)));
         h.eps_pri(i_z)=sqrt(z_length)*ABSTOL+RELTOL*max(norm(z(:)),norm(t(:)));
         h.eps_dual(i_z)=sqrt(z_length)*ABSTOL+RELTOL*norm(u(:)); 
-        fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),PARA.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
+       % fprintf('-->inner iter_Z %d, Obj %3.3g rho_z %3.3g rz %3.3g sz %3.3g epri %3.3g edua %3.3g\n', i_z, h.optval(i_z+1),PARA.rho_Z,h.r_norm(i_z),h.s_norm(i_z),h.eps_pri(i_z), h.eps_dual(i_z))
         r1 = h.r_norm(i_z) < h.eps_pri(i_z);
         s1 = h.s_norm(i_z) < h.eps_dual(i_z);
         if r1 && s1

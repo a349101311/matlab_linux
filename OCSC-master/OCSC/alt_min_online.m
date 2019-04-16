@@ -10,7 +10,7 @@ if ~isempty(init)
         d_hat=init.d_hat;
     end
     if isfield(init,'A_h')
-        A_h=init.A_h;
+        A_h=init.A_h;z
     else
         A_h = [];
     end

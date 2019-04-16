@@ -14,10 +14,22 @@ end
 %     b = double(b);
 % end
 %PSNR0 = psnr(b, Dz); %%
-clf
+
+% %mean b
+ %meanb = sum(b(:)) / size(b(:),1);
+% 
+% %mean Dz
+ %meanDz = sum(Dz(:)) / size(Dz(:),1);
+% 
+% fprintf('meanb %2.6f meanDz %2.6f\n',meanb,meanDz)
 figure(3)
+%Dz = Dz + (meanb - meanDz);Dz = Dz .* 2.5;
+
+% meanDz = sum(Dz(:)) / size(Dz(:),1);
+% fprintf('meanb %2.6f meanDz %2.6f\n',meanb,meanDz)
 [PSNR,RMSE] = my_psnr(b,Dz);
 subplot(1,2,1) , imshow(b);
+
 subplot(1,2,2) , imshow(Dz);
 title(sprintf('PSNR:%.2f',PSNR));
 Frame = getframe(figure(3));
